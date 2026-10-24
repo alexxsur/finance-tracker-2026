@@ -1,24 +1,67 @@
-# README
+# Finance Tracker 2026
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+> **Purpose:** This file describes the project as it exists today and explains how to set it up, run it, and test it locally. For the general steps to follow after `rails new`, see [docs/POST_GENERATION_STEPS.md](docs/POST_GENERATION_STEPS.md). For the planned development steps and progress, see [the development roadmap](docs/ROADMAP.md).
 
-Things you may want to cover:
+## Current status
 
-* Ruby version
+This repository contains the initial Rails application scaffold. It is configured to use PostgreSQL and includes the default Rails health check, but it does not yet implement finance-tracking features such as accounts, transactions, or reports.
 
-* System dependencies
+## Technology
 
-* Configuration
+- Ruby 3.3.10 (see `.ruby-version`)
+- Rails 8.1.4 (see `Gemfile`)
+- PostgreSQL
+- Puma
 
-* Database creation
+## Prerequisites
 
-* Database initialization
+Install Ruby 3.3.10, PostgreSQL, and Bundler. PostgreSQL must be running, and your local PostgreSQL role must be able to create databases. If your PostgreSQL setup requires a username, password, host, or port, configure it in `config/database.yml` or through the supported `DATABASE_URL` environment variable. Do not commit credentials.
 
-* How to run the test suite
+## Local setup
 
-* Services (job queues, cache servers, search engines, etc.)
+From the project root:
 
-* Deployment instructions
+1. Install the Ruby dependencies:
 
-* ...
+   ```sh
+   bundle install
+   ```
+
+2. Prepare the development database:
+
+   ```sh
+   bin/rails db:prepare
+   ```
+
+   If database preparation fails, check that PostgreSQL is running and that your local PostgreSQL role and connection settings are correct.
+
+3. Start the Rails server:
+
+   ```sh
+   bin/rails server
+   ```
+
+4. Open [http://localhost:3000](http://localhost:3000).
+
+The generated health check is available at `/up`.
+
+## Tests
+
+Run the Rails test suite with:
+
+```sh
+bin/rails test
+```
+
+## Useful commands
+
+```sh
+bin/rails routes       # List application routes
+bin/rails db:migrate   # Apply pending database migrations
+bin/rails console      # Open a Rails console
+```
+
+## Documentation
+
+- [docs/POST_GENERATION_STEPS.md](docs/POST_GENERATION_STEPS.md): the usual steps to follow after generating a Rails project with `rails new ... --database=postgresql`.
+- [docs/ROADMAP.md](docs/ROADMAP.md): the project-specific development plan and progress checklist. Update it as milestones are completed so it reflects the actual state of the project.
