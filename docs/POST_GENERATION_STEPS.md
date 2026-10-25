@@ -156,6 +156,52 @@ Implement the domain rules in models (or service objects) and add tests for the 
 bin/rails test
 ```
 
+### System tests and the CI pipeline
+
+System tests (`test/system`) are end-to-end tests that simulate a real user working with the application in a real browser: they open pages, click, fill in forms, and check what appears on screen.
+
+- They use Capybara (the API for describing user actions) and Selenium (which drives the browser, usually Chrome). Both gems are already in the `Gemfile`.
+- They inherit from `ApplicationSystemTestCase`, which defines the browser and its settings.
+- They run with `bin/rails test:system`. `bin/rails test` does not include them by default.
+
+Example:
+
+```ruby
+class TransactionsTest < ApplicationSystemTestCase
+  test "creating a transaction" do
+    visit new_transaction_path
+    fill_in "Description", with: "Groceries"
+    fill_in "Amount", with: "25.50"
+    click_on "Create Transaction"
+
+    assert_text "Transaction was successfully created"
+  end
+end
+```
+
+| Test type | What it checks | Speed |
+|-----------|----------------|-------|
+| Model | Validations and logic of a model | Very fast |
+| Controller / integration | HTTP requests and responses, without a browser | Fast |
+| System | The complete flow in a browser, including JavaScript, Turbo, and CSS | Slow |
+
+Use system tests for the critical user journeys (for example, signing up, creating a transaction, or searching for friends), especially when they depend on JavaScript or Turbo. Because they are slower and more fragile, keep them few and rely mostly on model and integration tests.
+
+#### Why they fail on a fresh project
+
+A fresh Rails project has no `test/system` directory, so `bin/rails test:system` fails with `cannot load such file -- .../test/system` (`LoadError`) until the first system test exists. For the same reason, the `system-test` job in `.github/workflows/ci.yml` is commented out. Until then, use `bin/rails db:test:prepare` and `bin/rails test`.
+
+To enable system tests later:
+
+1. Generate the first one (this creates `test/system/` and `test/application_system_test_case.rb`):
+
+   ```sh
+   bin/rails generate system_test NAME
+   ```
+
+2. Make sure a supported browser (for example, Chrome) is available.
+3. Uncomment the `system-test` job in `.github/workflows/ci.yml`.
+
 ## 10. Build routes, controllers, and views
 
 Start with one small feature, such as recording and listing transactions, and expand iteratively.
