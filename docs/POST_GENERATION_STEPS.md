@@ -226,6 +226,12 @@ These commands were taken from the terminal history, in the order they were run,
 | `direnv allow` | Approve the project's `.envrc` so `direnv` loads the variables from `.env` into the terminal (needed for `bin/rails db:prepare` to see them). |
 | `bin/rails db:prepare` | Create the database (if needed), load the schema, and run pending migrations. |
 | `rails generate controller welcome index` | Generate the `Welcome` controller with an `index` action, its view, helper, and test, and add a `get "welcome/index"` route. The route was then replaced with `root "welcome#index"` so the welcome page is the home page. |
+| `bundle add devise` | Add the Devise authentication gem to the `Gemfile` and install it. |
+| `rails generate devise:install` | Create the Devise initializer (`config/initializers/devise.rb`) and locale file, and print the required setup notes (for example, the mailer `default_url_options`). |
+| `rails generate devise MODEL` | Show Devise's generator usage with the literal placeholder `MODEL`; replace it with a real model name, as in the next command. |
+| `rails generate devise User` | Generate the `User` model with Devise modules, a migration, and the `devise_for :users` route. |
+| `rails routes \| grep users` | List the routes that mention `users` to confirm the Devise routes were added. |
+| `rails db:migrate` | Apply the migration that creates the `users` table. |
 
 ## Summary
 

@@ -26,7 +26,7 @@ No application features have been implemented yet.
 ### 1. Foundation and authentication
 
 - [x] Add a welcome page as the root route.
-- [ ] Add Devise and create users.
+- [x] Add Devise and create users.
 
 ### 2. Styling and navigation
 
