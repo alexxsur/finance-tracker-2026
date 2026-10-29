@@ -225,6 +225,7 @@ These commands were taken from the terminal history, in the order they were run,
 | `gem install dotenv-rails` | Install the `dotenv-rails` gem locally. It is not in the `Gemfile` yet; see step 4 to add it. |
 | `direnv allow` | Approve the project's `.envrc` so `direnv` loads the variables from `.env` into the terminal (needed for `bin/rails db:prepare` to see them). |
 | `bin/rails db:prepare` | Create the database (if needed), load the schema, and run pending migrations. |
+| `rails generate controller welcome index` | Generate the `Welcome` controller with an `index` action, its view, helper, and test, and add a `get "welcome/index"` route. The route was then replaced with `root "welcome#index"` so the welcome page is the home page. |
 
 ## Summary
 
