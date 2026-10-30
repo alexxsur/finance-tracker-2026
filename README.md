@@ -4,7 +4,7 @@
 
 ## Current status
 
-This repository contains the initial Rails application scaffold. It is configured to use PostgreSQL and includes the default Rails health check, but it does not yet implement finance-tracking features such as accounts, transactions, or reports.
+The application currently has a welcome page, Devise-based user authentication, and Bootstrap configured through the CSS bundling pipeline. Finance-tracking features such as accounts, transactions, and reports are not implemented yet.
 
 ## Technology
 
@@ -12,6 +12,7 @@ This repository contains the initial Rails application scaffold. It is configure
 - Rails 8.1.4 (see `Gemfile`)
 - PostgreSQL
 - Puma
+- Bootstrap (compiled from Sass with cssbundling-rails)
 
 ## Prerequisites
 
@@ -59,6 +60,7 @@ bin/rails test
 bin/rails routes       # List application routes
 bin/rails db:migrate   # Apply pending database migrations
 bin/rails console      # Open a Rails console
+bin/rails assets:precompile # Compile assets for deployment
 ```
 
 ## Documentation

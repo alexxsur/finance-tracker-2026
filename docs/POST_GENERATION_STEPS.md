@@ -232,6 +232,9 @@ These commands were taken from the terminal history, in the order they were run,
 | `rails generate devise User` | Generate the `User` model with Devise modules, a migration, and the `devise_for :users` route. |
 | `rails routes \| grep users` | List the routes that mention `users` to confirm the Devise routes were added. |
 | `rails db:migrate` | Apply the migration that creates the `users` table. |
+| `bundle add cssbundling-rails` | Add Rails CSS bundling support to the `Gemfile` and install the dependency. |
+| `rails css:install:bootstrap` | Configure Bootstrap Sass, package scripts, and the CSS build setup for Rails. |
+| `rails assets:precompile` | Compile the application assets, including the Bootstrap CSS bundle, for deployment. |
 
 ## Summary
 

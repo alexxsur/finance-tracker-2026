@@ -19,7 +19,7 @@
 - [x] Document local setup and testing in the README.
 - [ ] Add `dotenv-rails` to the `Gemfile` (development and test groups) and create the `.env` files for local environment variables, keeping them out of Git. See [POST_GENERATION_STEPS.md](POST_GENERATION_STEPS.md).
 
-No application features have been implemented yet.
+No finance-tracking features have been implemented yet.
 
 ## Milestones
 
@@ -30,7 +30,7 @@ No application features have been implemented yet.
 
 ### 2. Styling and navigation
 
-- [ ] Add Bootstrap for styling.
+- [x] Add Bootstrap for styling with `cssbundling-rails` and the Bootstrap Sass setup.
 - [ ] Style the forms with Bootstrap.
 - [ ] Add a navigation partial and style flash messages.
 
