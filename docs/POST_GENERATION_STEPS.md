@@ -230,6 +230,7 @@ These commands were taken from the terminal history, in the order they were run,
 | `rails generate devise:install` | Create the Devise initializer (`config/initializers/devise.rb`) and locale file, and print the required setup notes (for example, the mailer `default_url_options`). |
 | `rails generate devise MODEL` | Show Devise's generator usage with the literal placeholder `MODEL`; replace it with a real model name, as in the next command. |
 | `rails generate devise User` | Generate the `User` model with Devise modules, a migration, and the `devise_for :users` route. |
+| `rails generate devise:views` | Copy Devise's default authentication views into `app/views/devise` so they can be customized for the application. |
 | `rails routes \| grep users` | List the routes that mention `users` to confirm the Devise routes were added. |
 | `rails db:migrate` | Apply the migration that creates the `users` table. |
 | `bundle add cssbundling-rails` | Add Rails CSS bundling support to the `Gemfile` and install the dependency. |
