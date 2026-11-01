@@ -37,7 +37,7 @@ No finance-tracking features have been implemented yet.
 ### 3. External data and portfolio
 
 - [x] Add the stock (or financial asset) model with ticker, name, and last price.
-- [ ] Configure the external data provider credentials, keeping secrets out of source control (use Rails credentials or environment variables).
+- [x] Configure the external data provider credentials, keeping secrets out of source control (use Rails credentials or environment variables).
 - [ ] Build the "my portfolio" view and the lookup form.
 - [ ] Add a standard (full page) lookup.
 - [ ] Make the lookup dynamic with Turbo, including error handling.

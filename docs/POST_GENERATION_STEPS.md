@@ -238,6 +238,8 @@ These commands were taken from the terminal history, in the order they were run,
 | `rails assets:precompile` | Compile the application assets, including the Bootstrap CSS bundle, for deployment. |
 | `rails g model Stock ticker:string name:string last_price:decimal` | Generate the `Stock` model, its migration, and a test and fixture file. `g` is shorthand for `generate`. |
 | `rails db:migrate` | Apply the migration that creates the `stocks` table (the same command is used above for `users`). |
+| `EDITOR='code --wait' rails credentials:edit` | Open the encrypted Rails credentials in VS Code and wait until the file is closed to save it. Used to store the external stock data provider API key under `twelve_data: api_key:`. Never commit `config/master.key`. |
+| `Rails.application.credentials.dig(:twelve_data, :api_key).present?` | Run in `rails console` to confirm the API key is stored, without printing the secret. |
 
 ## Summary
 
