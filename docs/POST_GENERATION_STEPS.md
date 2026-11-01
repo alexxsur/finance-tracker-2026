@@ -240,6 +240,7 @@ These commands were taken from the terminal history, in the order they were run,
 | `rails db:migrate` | Apply the migration that creates the `stocks` table (the same command is used above for `users`). |
 | `EDITOR='code --wait' rails credentials:edit` | Open the encrypted Rails credentials in VS Code and wait until the file is closed to save it. Used to store the external stock data provider API key under `twelve_data: api_key:`. Never commit `config/master.key`. |
 | `Rails.application.credentials.dig(:twelve_data, :api_key).present?` | Run in `rails console` to confirm the API key is stored, without printing the secret. |
+| `rails g controller users my_portfolio` | Generate the `UsersController#my_portfolio` action, view, helper, test, and `get "my_portfolio"` route. The generated view is only a placeholder; implement the portfolio behavior separately. |
 
 ## Summary
 

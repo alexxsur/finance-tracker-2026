@@ -4,7 +4,7 @@
 
 ## Current status
 
-The application currently has a welcome page, Devise-based user authentication, and Bootstrap configured through the CSS bundling pipeline. Finance-tracking features such as accounts, transactions, and reports are not implemented yet.
+The application currently has a welcome page, Devise-based user authentication, Bootstrap configured through the CSS bundling pipeline, and a generated placeholder for the user's portfolio page. The portfolio behavior and other finance-tracking features are not implemented yet.
 
 ## Technology
 
