@@ -236,6 +236,8 @@ These commands were taken from the terminal history, in the order they were run,
 | `bundle add cssbundling-rails` | Add Rails CSS bundling support to the `Gemfile` and install the dependency. |
 | `rails css:install:bootstrap` | Configure Bootstrap Sass, package scripts, and the CSS build setup for Rails. |
 | `rails assets:precompile` | Compile the application assets, including the Bootstrap CSS bundle, for deployment. |
+| `rails g model Stock ticker:string name:string last_price:decimal` | Generate the `Stock` model, its migration, and a test and fixture file. `g` is shorthand for `generate`. |
+| `rails db:migrate` | Apply the migration that creates the `stocks` table (the same command is used above for `users`). |
 
 ## Summary
 
