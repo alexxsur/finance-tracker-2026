@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   # get "users/my_portfolio"
   get "my_portfolio", to: "users#my_portfolio"
+  get "search_stock", to: "stocks#search"
   devise_for :users
   # get "welcome/index"
   root "welcome#index"

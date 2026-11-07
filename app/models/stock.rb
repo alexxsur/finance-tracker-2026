@@ -4,7 +4,7 @@ require "net/http"
 class Stock < ApplicationRecord
   class TwelveDataError < StandardError; end
 
-  API_URL = "https://api.twelvedata.com/price"
+  API_URL = "https://api.twelvedata.com/quote"
 
   def self.new_lookup(ticker_symbol)
     symbol = ticker_symbol.to_s.strip
@@ -20,20 +20,30 @@ class Stock < ApplicationRecord
     end
 
     unless response.is_a?(Net::HTTPSuccess)
+      if response.is_a?(Net::HTTPNotFound)
+        raise TwelveDataError, "We couldn't find that symbol. Check the ticker and try again."
+      end
+
       raise TwelveDataError, "Twelve Data request failed with HTTP status #{response.code}"
     end
 
-    data = JSON.parse(response.body)
-    if data["status"] == "error" || data["price"].blank?
+    data = begin
+      JSON.parse(response.body)
+    rescue JSON::ParserError
+      raise TwelveDataError, "Twelve Data returned an invalid JSON response"
+    end
+    if data["status"] == "error"
       raise TwelveDataError, data["message"].presence || "Twelve Data did not return a price"
     end
 
+    if data["symbol"].blank? || data["name"].blank? || data["close"].blank?
+      raise TwelveDataError, "Twelve Data did not return complete stock details"
+    end
+
     begin
-      BigDecimal(data["price"])
+      new(ticker: data["symbol"], name: data["name"], last_price: BigDecimal(data["close"].to_s))
     rescue ArgumentError
       raise TwelveDataError, "Twelve Data returned an invalid price"
     end
-  rescue JSON::ParserError
-    raise TwelveDataError, "Twelve Data returned an invalid JSON response"
   end
 end

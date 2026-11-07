@@ -2,7 +2,7 @@
 
 <div class="search-area">
   <h3>Search Stocks</h3>
-  <%= form_with url: my_portfolio_path, method: :get, local: true do %>
+  <%= form_with url: search_stock_path, method: :get, local: true do %>
     <div class="row mb-3 g-0">
       <div class="col-sm-9">
         <%= text_field_tag :stock, params[:stock], placeholder: "Stock ticker symbol", autofocus: true, class: "form-control form-control-lg", aria: { label: "Stock ticker symbol" } %>
@@ -15,3 +15,12 @@
     </div>
   <% end %>
 </div>
+<% if @stock %>
+  <div class="card results-block">
+    <div class="card-body">
+      <p class="mb-1"><strong>Symbol:</strong> <%= @stock.ticker %></p>
+      <p class="mb-1"><strong>Name:</strong> <%= @stock.name %></p>
+      <p class="mb-0"><strong>Price:</strong> <%= number_to_currency(@stock.last_price) %></p>
+    </div>
+  </div>
+<% end %>

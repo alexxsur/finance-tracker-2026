@@ -4,7 +4,7 @@
 
 ## Current status
 
-The application currently has a welcome page, Devise-based user authentication, Bootstrap configured through the CSS bundling pipeline, and a generated placeholder for the user's portfolio page. The portfolio behavior and other finance-tracking features are not implemented yet.
+The application currently has a welcome page, Devise-based user authentication, Bootstrap configured through the CSS bundling pipeline, and a portfolio page with a full-page stock lookup using Twelve Data. Stock lookup results are not yet saved to user portfolios, and other finance-tracking features are still in development.
 
 ## Technology
 
