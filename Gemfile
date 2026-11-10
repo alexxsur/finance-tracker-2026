@@ -63,6 +63,8 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  # Minitest 6 extracted minitest/mock into its own gem
+  gem "minitest-mock"
 end
 
 gem "devise", "~> 5.0"
