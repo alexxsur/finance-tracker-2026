@@ -1,13 +1,25 @@
 class StocksController < ApplicationController
   def search
     if params[:stock].blank?
-      redirect_to my_portfolio_path, alert: "Please enter a symbol to search"
+      @search_error = "Please enter a symbol to search"
+      render_search_response
       return
     end
 
     @stock = Stock.new_lookup(params[:stock])
-    render "users/my_portfolio"
+    render_search_response
   rescue Stock::TwelveDataError => error
-    redirect_to my_portfolio_path, alert: error.message
+    @search_error = error.message
+    render_search_response
+  end
+
+  private
+
+  def render_search_response
+    if request.headers["Turbo-Frame"].present?
+      render partial: "users/stock_search_results"
+    else
+      render "users/my_portfolio"
+    end
   end
 end
