@@ -8,7 +8,7 @@ The application currently has a welcome page, Devise-based user authentication, 
 
 ## Technology
 
-- Ruby 3.3.10 (see `.ruby-version`)
+- Ruby 3.3.13 (see `.ruby-version`)
 - Rails 8.1.4 (see `Gemfile`)
 - PostgreSQL
 - Puma
@@ -16,7 +16,7 @@ The application currently has a welcome page, Devise-based user authentication, 
 
 ## Prerequisites
 
-Install Ruby 3.3.10, PostgreSQL, and Bundler. PostgreSQL must be running, and your local PostgreSQL role must be able to create databases. If your PostgreSQL setup requires a username, password, host, or port, configure it in `config/database.yml` or through the supported `DATABASE_URL` environment variable. Do not commit credentials.
+Install Ruby 3.3.13, PostgreSQL, and Bundler. PostgreSQL must be running, and your local PostgreSQL role must be able to create databases. If your PostgreSQL setup requires a username, password, host, or port, configure it in `config/database.yml` or through the supported `DATABASE_URL` environment variable. Do not commit credentials.
 
 ## Local setup
 
