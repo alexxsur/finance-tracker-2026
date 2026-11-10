@@ -68,21 +68,21 @@ class StockTest < ActiveSupport::TestCase
         assert_equal "Twelve Data did not return complete stock details", error.message
       end
     end
+  end
 
-    test "new_lookup shows a friendly message when Twelve Data returns not found" do
-      response = Net::HTTPNotFound.new("1.1", "404", "Not Found")
-      response.instance_variable_set(:@read, true)
-      response.instance_variable_set(:@body, "")
+  test "new_lookup shows a friendly message when Twelve Data returns not found" do
+    response = Net::HTTPNotFound.new("1.1", "404", "Not Found")
+    response.instance_variable_set(:@read, true)
+    response.instance_variable_set(:@body, "")
 
-      http = Object.new
-      http.define_singleton_method(:get) { |_path| response }
-      start_http = ->(_host, _port, **_options, &block) { block.call(http) }
+    http = Object.new
+    http.define_singleton_method(:get) { |_path| response }
+    start_http = ->(_host, _port, **_options, &block) { block.call(http) }
 
-      Rails.application.credentials.stub(:dig, "test-api-key") do
-        Net::HTTP.stub(:start, start_http) do
-          error = assert_raises(Stock::TwelveDataError) { Stock.new_lookup("INVALID") }
-          assert_equal "We couldn't find that symbol. Check the ticker and try again.", error.message
-        end
+    Rails.application.credentials.stub(:dig, "test-api-key") do
+      Net::HTTP.stub(:start, start_http) do
+        error = assert_raises(Stock::TwelveDataError) { Stock.new_lookup("INVALID") }
+        assert_equal "We couldn't find that symbol. Check the ticker and try again.", error.message
       end
     end
   end
