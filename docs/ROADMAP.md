@@ -42,6 +42,7 @@ Stock lookup is implemented; persistent user portfolios and the remaining financ
 - [x] Build the "my portfolio" view and stock lookup form.
 - [x] Add a standard (full page) stock lookup with result and error handling.
 - [x] Make the lookup dynamic with Turbo, including error handling.
+- [x] Generate the `UserStock` resource and migration with references to users and stocks.
 - [ ] Add a many-to-many association between users and tracked assets.
 - [ ] Add tracking restrictions for users (for example, limits and duplicate prevention).
 - [ ] Add tracking removal.

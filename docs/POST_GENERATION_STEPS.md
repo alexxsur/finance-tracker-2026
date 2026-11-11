@@ -269,6 +269,8 @@ These commands were taken from the terminal history, in the order they were run,
 | `rbenv install --list-all \| grep -Fx "$(cat .ruby-version)"` | Check whether ruby-build lists the project's exact Ruby version. |
 | `ruby -v` | Check the Ruby version selected in the project directory. |
 | `bundle install` | Install the project's Ruby dependencies for the selected Ruby installation. |
+| `rails g resource UserStock user:references stock:references` | Generate the `UserStock` model, migration, controller, helper, tests, fixture, and resource routes. The generated migration must still be applied to create the table. |
+| `rails routes --expanded \| grep user_stocks` | Filter expanded route output for lines containing `user_stocks`. |
 
 ## Summary
 
