@@ -2,6 +2,9 @@ require "json"
 require "net/http"
 
 class Stock < ApplicationRecord
+  has_many :user_stocks
+  has_many :users, through: :user_stocks
+
   class TwelveDataError < StandardError; end
 
   API_URL = "https://api.twelvedata.com/quote"
