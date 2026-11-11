@@ -16,6 +16,27 @@ cd finance-tracker-2026
 
 Review the `README.md`, the `Gemfile`, and the application configuration (`config/application.rb`, `config/database.yml`, `config/routes.rb`).
 
+### Set up Ruby with rbenv
+
+If you use rbenv and the Ruby version in `.ruby-version` is not installed, install and activate it by running the following from the project root:
+
+```sh
+rbenv install "$(cat .ruby-version)"
+rbenv rehash
+ruby -v
+```
+
+To install a specific version instead, replace `VERSION` with the desired version:
+
+```sh
+rbenv install VERSION
+rbenv rehash
+```
+
+Installing a version does not automatically select it. To use it only in the current shell, run `rbenv shell VERSION`; to select it for the project, run `rbenv local VERSION` from the project root. The latter updates `.ruby-version`, so change it only when intentionally changing the project's Ruby version. Verify the selected version with `ruby -v`.
+
+If `rbenv install` cannot find that version, check the available versions with `rbenv install --list-all`. If ruby-build is installed as an rbenv Git plugin, update it with `git -C ~/.rbenv/plugins/ruby-build pull`; other installation methods require their own update process. Then retry the installation.
+
 ## 2. Install dependencies
 
 ```sh
@@ -212,7 +233,7 @@ Commit your work regularly. Check that secrets, credentials, and local-only conf
 
 ## Commands used in this project so far
 
-These commands were taken from the terminal history, in the order they were run, starting from project generation. Add new commands here as the project advances.
+These commands were taken from the terminal history, in the order they were run, starting from project generation. Commands that specify a Ruby version use the version from `.ruby-version` below rather than hard-coding it. Add new commands here as the project advances.
 
 | Command | Purpose |
 |---------|---------|
@@ -241,6 +262,13 @@ These commands were taken from the terminal history, in the order they were run,
 | `EDITOR='code --wait' rails credentials:edit` | Open the encrypted Rails credentials in VS Code and wait until the file is closed to save it. Used to store the external stock data provider API key under `twelve_data: api_key:`. Never commit `config/master.key`. |
 | `Rails.application.credentials.dig(:twelve_data, :api_key).present?` | Run in `rails console` to confirm the API key is stored, without printing the secret. |
 | `rails g controller users my_portfolio` | Generate the `UsersController#my_portfolio` action, view, helper, test, and `get "my_portfolio"` route. The generated view is only a placeholder; implement the portfolio behavior separately. |
+| `rbenv install "$(cat .ruby-version)"` | Install the Ruby version specified by the project. |
+| `rbenv rehash` | Refresh rbenv's executable shims. |
+| `git -C ~/.rbenv/plugins/ruby-build pull` | Update the ruby-build Git plugin's local checkout. |
+| `rbenv install --list-all` | List the Ruby versions available through ruby-build. |
+| `rbenv install --list-all \| grep -Fx "$(cat .ruby-version)"` | Check whether ruby-build lists the project's exact Ruby version. |
+| `ruby -v` | Check the Ruby version selected in the project directory. |
+| `bundle install` | Install the project's Ruby dependencies for the selected Ruby installation. |
 
 ## Summary
 
