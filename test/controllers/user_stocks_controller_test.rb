@@ -76,4 +76,29 @@ class UserStocksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to my_portfolio_path
     assert_equal "You can track up to 10 stocks.", flash[:alert]
   end
+
+  test "removes a stock from the current user's portfolio" do
+    user_stock = users(:one).user_stocks.find_by!(stock: stocks(:one))
+    stock = user_stock.stock
+
+    assert_no_difference("Stock.count") do
+      assert_difference("UserStock.count", -1) do
+        delete user_stock_path(user_stock)
+      end
+    end
+
+    assert_redirected_to my_portfolio_path
+    assert_equal "#{stock.ticker} was successfully removed from your portfolio", flash[:notice]
+  end
+
+  test "cannot remove another user's stock association" do
+    user_stock = users(:two).user_stocks.find_by!(stock: stocks(:two))
+
+    assert_no_difference("UserStock.count") do
+      delete user_stock_path(user_stock)
+    end
+
+    assert_response :not_found
+    assert UserStock.exists?(user_stock.id)
+  end
 end

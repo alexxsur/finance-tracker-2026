@@ -35,6 +35,14 @@ class UserStocksController < ApplicationController
     redirect_to my_portfolio_path, alert: error.message
   end
 
+  def destroy
+    user_stock = current_user.user_stocks.includes(:stock).find(params[:id])
+    ticker = user_stock.stock.ticker
+    user_stock.destroy!
+
+    redirect_to my_portfolio_path, notice: "#{ticker} was successfully removed from your portfolio"
+  end
+
   private
 
   def tracking_restriction_message(ticker)
