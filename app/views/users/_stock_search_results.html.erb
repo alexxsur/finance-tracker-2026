@@ -9,6 +9,7 @@
         <p class="mb-1"><strong>Symbol:</strong> <%= @stock.ticker %></p>
         <p class="mb-1"><strong>Name:</strong> <%= @stock.name %></p>
         <p class="mb-0"><strong>Price:</strong> <%= number_to_currency(@stock.last_price) %></p>
+        <%= button_to "Add to portfolio", user_stocks_path(ticker: @stock.ticker), method: :post, class: "btn btn-success mt-3", data: { turbo_frame: "_top" } %>
       </div>
     </div>
   <% end %>

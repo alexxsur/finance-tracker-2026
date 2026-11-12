@@ -2,6 +2,19 @@ require "test_helper"
 require "minitest/mock"
 
 class StockTest < ActiveSupport::TestCase
+  test "requires a ticker and name" do
+    stock = Stock.new
+
+    assert_not stock.valid?
+    assert_includes stock.errors.attribute_names, :ticker
+    assert_includes stock.errors.attribute_names, :name
+  end
+
+  test "check_db finds a ticker without regard to case" do
+    assert_equal stocks(:one), Stock.check_db(stocks(:one).ticker.downcase)
+    assert_equal stocks(:two), Stock.check_db(stocks(:two).ticker.downcase)
+  end
+
   test "new_lookup returns stock details from Twelve Data" do
     response = Net::HTTPOK.new("1.1", "200", "OK")
     response.instance_variable_set(:@read, true)

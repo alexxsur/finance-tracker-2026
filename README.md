@@ -4,7 +4,7 @@
 
 ## Current status
 
-The application currently has a welcome page, Devise-based user authentication, Bootstrap configured through the CSS bundling pipeline, and a portfolio page with a stock lookup using Twelve Data. Search results update with Turbo without a full-page reload, and errors are displayed in the results area. Stock lookup results are not yet saved to user portfolios, and other finance-tracking features are still in development.
+The application currently has a welcome page, Devise-based user authentication, Bootstrap configured through the CSS bundling pipeline, and a portfolio page with a stock lookup using Twelve Data. Search results update with Turbo without a full-page reload, and users can add stocks to and view their portfolios. Duplicate-tracking restrictions, stock removal, and other finance-tracking features are still in development.
 
 ## Technology
 

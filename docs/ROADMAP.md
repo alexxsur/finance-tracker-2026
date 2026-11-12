@@ -19,7 +19,7 @@
 - [x] Document local setup and testing in the README.
 - [ ] Add `dotenv-rails` to the `Gemfile` (development and test groups) and create the `.env` files for local environment variables, keeping them out of Git. See [POST_GENERATION_STEPS.md](POST_GENERATION_STEPS.md).
 
-Stock lookup is implemented; persistent user portfolios and the remaining finance and social features are still in development.
+Stock lookup, user-stock associations, and adding and displaying tracked stocks are implemented. Duplicate-tracking restrictions, stock removal, and the remaining finance and social features are still in development.
 
 ## Milestones
 
@@ -43,7 +43,8 @@ Stock lookup is implemented; persistent user portfolios and the remaining financ
 - [x] Add a standard (full page) stock lookup with result and error handling.
 - [x] Make the lookup dynamic with Turbo, including error handling.
 - [x] Generate the `UserStock` resource and migration with references to users and stocks.
-- [ ] Add a many-to-many association between users and tracked assets.
+- [x] Add a many-to-many association between users and tracked stocks through `UserStock`.
+- [x] Allow users to add stocks to their portfolios and display their tracked stocks.
 - [ ] Add tracking restrictions for users (for example, limits and duplicate prevention).
 - [ ] Add tracking removal.
 - [ ] Clean up formatting and update the README.

@@ -21,6 +21,7 @@ class StocksControllerTest < ActionDispatch::IntegrationTest
     assert_select ".results-block", text: /AAPL/
     assert_select ".results-block", text: /Apple Inc/
     assert_select ".results-block", text: /\$123\.45/
+    assert_select "form[action='#{user_stocks_path(ticker: "AAPL")}']"
   end
 
   test "search renders the full portfolio page without a Turbo Frame request" do

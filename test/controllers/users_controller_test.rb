@@ -9,5 +9,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "h1", "My Portfolio"
     assert_select "form[method=get] input[name=stock]"
+    assert_select "table tbody tr", 1
   end
 end

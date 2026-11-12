@@ -19,6 +19,7 @@ class StocksController < ApplicationController
     if request.headers["Turbo-Frame"].present?
       render partial: "users/stock_search_results"
     else
+      @tracked_stocks = current_user.stocks
       render "users/my_portfolio"
     end
   end

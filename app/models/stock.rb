@@ -5,9 +5,15 @@ class Stock < ApplicationRecord
   has_many :user_stocks
   has_many :users, through: :user_stocks
 
+  validates :name, :ticker, presence: true
+
   class TwelveDataError < StandardError; end
 
   API_URL = "https://api.twelvedata.com/quote"
+
+  def self.check_db(ticker_symbol)
+    where("LOWER(ticker) = ?", ticker_symbol.to_s.strip.downcase).first
+  end
 
   def self.new_lookup(ticker_symbol)
     symbol = ticker_symbol.to_s.strip

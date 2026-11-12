@@ -16,3 +16,6 @@
   <% end %>
 </div>
 <%= render "users/stock_search_results" %>
+<% if @tracked_stocks.present? %>
+  <%= render "stocks/list" %>
+<% end %>
