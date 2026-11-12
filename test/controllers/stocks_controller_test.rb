@@ -24,6 +24,38 @@ class StocksControllerTest < ActionDispatch::IntegrationTest
     assert_select "form[action='#{user_stocks_path(ticker: "AAPL")}']"
   end
 
+  test "search hides add button when stock is already tracked" do
+    stock = stocks(:one)
+    Stock.stub(:new_lookup, stock) do
+      get search_stock_path,
+          params: { stock: stock.ticker },
+          headers: { "Turbo-Frame" => "stock_search_results" }
+    end
+
+    assert_response :success
+    assert_select ".results-block", text: /already tracking this stock/
+    assert_select ".results-block form", count: 0
+  end
+
+  test "search hides add button when user has reached the stock limit" do
+    user = users(:one)
+    (10 - user.stocks.count).times do |index|
+      stock = Stock.create!(ticker: "LIMIT#{index}", name: "Limit stock #{index}")
+      user.stocks << stock
+    end
+    stock = Stock.new(ticker: "NEW", name: "New stock", last_price: 10)
+
+    Stock.stub(:new_lookup, stock) do
+      get search_stock_path,
+          params: { stock: "NEW" },
+          headers: { "Turbo-Frame" => "stock_search_results" }
+    end
+
+    assert_response :success
+    assert_select ".results-block", text: /10 stocks/
+    assert_select ".results-block form", count: 0
+  end
+
   test "search renders the full portfolio page without a Turbo Frame request" do
     stock = Stock.new(ticker: "AAPL", name: "Apple Inc", last_price: 123.45)
 

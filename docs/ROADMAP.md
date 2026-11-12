@@ -45,7 +45,7 @@ Stock lookup, user-stock associations, and adding and displaying tracked stocks 
 - [x] Generate the `UserStock` resource and migration with references to users and stocks.
 - [x] Add a many-to-many association between users and tracked stocks through `UserStock`.
 - [x] Allow users to add stocks to their portfolios and display their tracked stocks.
-- [ ] Add tracking restrictions for users (for example, limits and duplicate prevention).
+- [x] Add tracking restrictions: prevent duplicate stocks and limit each user to ten tracked stocks.
 - [ ] Add tracking removal.
 - [ ] Clean up formatting and update the README.
 

@@ -51,4 +51,29 @@ class UserStocksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to my_portfolio_path
     assert_equal "Invalid symbol", flash[:alert]
   end
+
+  test "does not add the same stock to a user's portfolio twice" do
+    stock = stocks(:one)
+
+    assert_no_difference("UserStock.count") do
+      post user_stocks_path, params: { ticker: stock.ticker }
+    end
+
+    assert_redirected_to my_portfolio_path
+    assert_equal "You are already tracking this stock.", flash[:alert]
+  end
+
+  test "prevents adding more than ten different stocks" do
+    user = users(:one)
+    (10 - user.stocks.count).times do |index|
+      stock = Stock.create!(ticker: "LIMIT#{index}", name: "Limit stock #{index}")
+      user.stocks << stock
+    end
+    assert_no_difference([ "Stock.count", "UserStock.count" ]) do
+      post user_stocks_path, params: { ticker: "EXTRA" }
+    end
+
+    assert_redirected_to my_portfolio_path
+    assert_equal "You can track up to 10 stocks.", flash[:alert]
+  end
 end
