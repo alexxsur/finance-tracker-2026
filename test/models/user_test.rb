@@ -38,4 +38,8 @@ class UserTest < ActiveSupport::TestCase
   test "full_name falls back to Anonymous when no name is set" do
     assert_equal "Anonymous", users(:one).full_name
   end
+
+  test "friends are reached through friendship records" do
+    assert_includes users(:one).friends, users(:two)
+  end
 end
