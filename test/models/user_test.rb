@@ -26,4 +26,16 @@ class UserTest < ActiveSupport::TestCase
     assert_not user.can_track_stock?(stocks(:one).ticker)
     assert user.can_track_stock?("NEW-TICKER")
   end
+
+  test "full_name joins first and last names" do
+    user = users(:one)
+    user.first_name = "Ada"
+    user.last_name = "Lovelace"
+
+    assert_equal "Ada Lovelace", user.full_name
+  end
+
+  test "full_name falls back to Anonymous when no name is set" do
+    assert_equal "Anonymous", users(:one).full_name
+  end
 end

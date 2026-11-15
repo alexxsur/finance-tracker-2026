@@ -8,6 +8,17 @@
     <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
   </div>
 
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <%= f.label :first_name, class: "form-label" %>
+      <%= f.text_field :first_name, autocomplete: "given-name", class: "form-control" %>
+    </div>
+    <div class="col-md-6 mb-3">
+      <%= f.label :last_name, class: "form-label" %>
+      <%= f.text_field :last_name, autocomplete: "family-name", class: "form-control" %>
+    </div>
+  </div>
+
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
     <div class="alert alert-info" role="status">Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
   <% end %>

@@ -272,6 +272,8 @@ These commands were taken from the terminal history, in the order they were run,
 | `rails g resource UserStock user:references stock:references` | Generate the `UserStock` model, migration, controller, helper, tests, fixture, and resource routes. The generated migration must still be applied to create the table. |
 | `rails routes --expanded \| grep user_stocks` | Filter expanded route output for lines containing `user_stocks`. |
 | `rails db:migrate` | Apply the `user_stocks` migration so users' tracked stocks can be stored in PostgreSQL. |
+| `rails g migration add_first_last_name_to_users` | Generate a migration file for adding first and last name columns to users; edit the generated migration to define the columns before applying it. |
+| `rails db:migrate` | Apply the user name migration so first and last names can be stored in the database. |
 | `rubocop` | Check Ruby files for style and lint offenses using the project's RuboCop configuration. |
 | `rubocop -f github` | Run the same RuboCop checks with output formatted for GitHub Actions annotations. |
 

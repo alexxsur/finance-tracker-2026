@@ -51,7 +51,7 @@ Stock lookup, user-stock associations, and adding and displaying tracked stocks 
 
 ### 4. User profile details
 
-- [ ] Add first and last names to users and let the account edit form accept them.
+- [x] Add first and last names to users and let the account edit form accept them.
 - [ ] Allow first and last names during sign-up.
 
 ### 5. Friends and social features
