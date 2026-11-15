@@ -1,7 +1,15 @@
 <%= turbo_frame_tag "friend_search_results" do %>
-  <% if @friend_query.present? %>
-    <p class="text-body-secondary" role="status">
-      Search submitted: <code><%= @friend_query.to_json %></code>
-    </p>
+  <% if @search_error.present? %>
+    <div class="alert alert-warning" role="alert">
+      <%= @search_error %>
+    </div>
+  <% elsif @friend_query.present? %>
+    <div class="card results-block" role="status">
+      <div class="card-body">
+        <p class="card-text mb-0">
+          Search submitted: <strong><%= @friend_query %></strong>
+        </p>
+      </div>
+    </div>
   <% end %>
 <% end %>

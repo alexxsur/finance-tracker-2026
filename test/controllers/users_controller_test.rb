@@ -57,7 +57,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
         headers: { "Turbo-Frame" => "friend_search_results" }
 
     assert_response :success
-    assert_select "turbo-frame#friend_search_results", text: /"Ada Lovelace"/
+    assert_select "turbo-frame#friend_search_results", text: /Ada Lovelace/
   end
 
   test "search returns the submitted friend query as JSON without a Turbo Frame" do
@@ -66,6 +66,16 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_equal '"ada@example.com"', response.body
+  end
+
+  test "search displays a friendly error for a blank Turbo Frame query" do
+    sign_in users(:one)
+    get search_friend_path,
+        params: { friend: " " },
+        headers: { "Turbo-Frame" => "friend_search_results" }
+
+    assert_response :success
+    assert_select ".alert", "Please enter a friend name or email to search"
   end
 
   test "account update accepts first and last name" do

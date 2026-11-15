@@ -42,4 +42,30 @@ class UserTest < ActiveSupport::TestCase
   test "friends are reached through friendship records" do
     assert_includes users(:one).friends, users(:two)
   end
+
+  test "search finds users by first name, last name, or email" do
+    user = users(:two)
+    user.update!(first_name: "Ada", last_name: "Lovelace")
+
+    assert_includes User.search("ada"), user
+    assert_includes User.search("lovelace"), user
+    assert_includes User.search("EXAMPLE.COM"), user
+  end
+
+  test "search ignores surrounding whitespace and returns unique matches" do
+    user = users(:two)
+    user.update!(first_name: "Ada", last_name: "Ada")
+
+    results = User.search("  ada  ")
+
+    assert_equal 1, results.count { |result| result == user }
+  end
+
+  test "search returns no results for a blank query" do
+    assert_empty User.search("  ")
+  end
+
+  test "matches rejects unsupported search fields" do
+    assert_raises(ArgumentError) { User.matches(:encrypted_password, "secret") }
+  end
 end

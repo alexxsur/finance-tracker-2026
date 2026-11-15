@@ -11,6 +11,7 @@ class UsersController < ApplicationController
     @friend_query = params[:friend]
 
     if request.headers["Turbo-Frame"] == "friend_search_results"
+      @search_error = "Please enter a friend name or email to search" if @friend_query.blank?
       render partial: "users/friend_search_results"
     else
       render json: @friend_query.to_json

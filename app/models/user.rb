@@ -25,4 +25,36 @@ class User < ApplicationRecord
   def full_name
     [ first_name, last_name ].select(&:present?).join(" ").presence || "Anonymous"
   end
+
+  def self.search(parameter)
+    query = parameter.to_s.strip
+    return [] if query.blank?
+
+    (first_name_matches(query) + last_name_matches(query) + email_matches(query)).uniq
+  end
+
+  def self.first_name_matches(parameter)
+    matches(:first_name, parameter)
+  end
+
+  def self.last_name_matches(parameter)
+    matches(:last_name, parameter)
+  end
+
+  def self.email_matches(parameter)
+    matches(:email, parameter)
+  end
+
+  def self.matches(field_name, parameter)
+    field = field_name.to_s
+    unless %w[first_name last_name email].include?(field)
+      raise ArgumentError, "Unsupported user search field: #{field_name}"
+    end
+
+    query = parameter.to_s.strip
+    return [] if query.blank?
+
+    escaped_query = sanitize_sql_like(query.downcase)
+    where("LOWER(#{field}) LIKE ?", "%#{escaped_query}%").to_a
+  end
 end
