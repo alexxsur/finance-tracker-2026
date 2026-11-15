@@ -19,7 +19,7 @@
 - [x] Document local setup and testing in the README.
 - [ ] Add `dotenv-rails` to the `Gemfile` (development and test groups) and create the `.env` files for local environment variables, keeping them out of Git. See [POST_GENERATION_STEPS.md](POST_GENERATION_STEPS.md).
 
-Stock lookup, user-stock associations, and adding and displaying tracked stocks are implemented. Duplicate-tracking restrictions, stock removal, and the remaining finance and social features are still in development.
+Stock lookup, portfolio tracking and removal, and basic friendship associations and listing are implemented. Friend search and the remaining social features are still in development.
 
 ## Milestones
 
@@ -46,19 +46,19 @@ Stock lookup, user-stock associations, and adding and displaying tracked stocks 
 - [x] Add a many-to-many association between users and tracked stocks through `UserStock`.
 - [x] Allow users to add stocks to their portfolios and display their tracked stocks.
 - [x] Add tracking restrictions: prevent duplicate stocks and limit each user to ten tracked stocks.
-- [ ] Add tracking removal.
+- [x] Add tracking removal.
 - [ ] Clean up formatting and update the README.
 
 ### 4. User profile details
 
 - [x] Add first and last names to users and let the account edit form accept them.
-- [ ] Allow first and last names during sign-up.
+- [x] Allow first and last names during sign-up.
 
 ### 5. Friends and social features
 
-- [ ] Add a self-referential friendships association (back end).
-- [ ] Add a "my friends" view listing followed friends.
-- [ ] Add a friend search form.
+- [x] Add a self-referential friendships association (back end).
+- [x] Add a "my friends" view listing followed friends.
+- [x] Add a friend search form.
 - [ ] Submit the friend search dynamically with Turbo.
 - [ ] Add user search methods.
 - [ ] Add friend removal.

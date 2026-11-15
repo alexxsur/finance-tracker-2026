@@ -1,0 +1,7 @@
+<%= turbo_frame_tag "friend_search_results" do %>
+  <% if @friend_query.present? %>
+    <p class="text-body-secondary" role="status">
+      Search submitted: <code><%= @friend_query.to_json %></code>
+    </p>
+  <% end %>
+<% end %>

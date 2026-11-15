@@ -280,6 +280,9 @@ These commands were taken from the terminal history, in the order they were run,
 | `bin/bundler-audit` | Check the dependencies in `Gemfile.lock` for known security advisories. |
 | `bundle update puma msgpack` | Update the named gems and compatible dependencies, recording resolved versions in `Gemfile.lock`. |
 | `bundle update` | Update all gems allowed by the `Gemfile` constraints and refresh `Gemfile.lock`; review and test the resulting changes. |
+| `rails g model Friendship user:references` | Generate the `Friendship` model, migration, test, and fixture with a user reference. The migration was subsequently extended with a friend reference to users. |
+| `rails db:migrate` | Apply the friendships migration and create its table. |
+| `rails test` | Run the Rails test suite, excluding system tests by default. |
 
 ## Summary
 

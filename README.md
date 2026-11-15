@@ -4,7 +4,9 @@
 
 ## Current status
 
-The application currently has a welcome page, Devise-based user authentication, editable first and last names, Bootstrap configured through the CSS bundling pipeline, and a portfolio page with a stock lookup using Twelve Data. Search results update with Turbo without a full-page reload, and users can add up to ten unique stocks to and view their portfolios. Stock removal, collecting names during sign-up, and other finance-tracking features are still in development.
+The application has Devise-based user authentication, names on registration and profile editing, and Bootstrap styling. Users can search for stocks using Twelve Data and add up to ten unique stocks to their portfolios or remove them. Stock search results update with Turbo without a full-page reload.
+
+The friends page lists followed users and includes a search form, but friend search currently only displays the submitted query. Finding users and following or unfollowing them from the interface are still in development.
 
 ## Technology
 

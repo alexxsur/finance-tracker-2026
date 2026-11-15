@@ -1,5 +1,26 @@
 <h1>Friends</h1>
 
+<div class="search-area">
+  <h3>Search Friends</h3>
+  <%= form_with url: search_friend_path, method: :get,
+        data: { turbo_frame: "friend_search_results" } do %>
+    <div class="row mb-3 g-0">
+      <div class="col-sm-9">
+        <%= text_field_tag :friend, params[:friend], placeholder: "Name or email",
+              autofocus: true, class: "form-control form-control-lg",
+              aria: { label: "Search friends by name or email" } %>
+      </div>
+      <div class="col-sm-3">
+        <%= button_tag type: :submit, class: "btn btn-success btn-lg ms-sm-2",
+              aria: { label: "Search friends" } do %>
+          <i class="bi bi-search" aria-hidden="true"></i>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+<%= turbo_frame_tag "friend_search_results" %>
+
 <% if @friends.present? %>
   <%= render "friends/list" %>
 <% else %>

@@ -38,6 +38,36 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select "p", "You aren't following anyone yet."
   end
 
+  test "my_friends includes a Turbo-powered friend search form" do
+    sign_in users(:one)
+    get my_friends_path
+
+    assert_response :success
+    assert_select "form[action='#{search_friend_path}'][data-turbo-frame='friend_search_results']" do
+      assert_select "input[name=friend][placeholder='Name or email']"
+      assert_select "button[type=submit] i.bi-search"
+    end
+    assert_select "turbo-frame#friend_search_results"
+  end
+
+  test "search returns the submitted friend query in the Turbo Frame" do
+    sign_in users(:one)
+    get search_friend_path,
+        params: { friend: "Ada Lovelace" },
+        headers: { "Turbo-Frame" => "friend_search_results" }
+
+    assert_response :success
+    assert_select "turbo-frame#friend_search_results", text: /"Ada Lovelace"/
+  end
+
+  test "search returns the submitted friend query as JSON without a Turbo Frame" do
+    sign_in users(:one)
+    get search_friend_path, params: { friend: "ada@example.com" }
+
+    assert_response :success
+    assert_equal '"ada@example.com"', response.body
+  end
+
   test "account update accepts first and last name" do
     user = users(:one)
     sign_in user
