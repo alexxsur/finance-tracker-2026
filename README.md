@@ -62,6 +62,7 @@ bin/rails db:migrate   # Apply pending database migrations
 bin/rails console      # Open a Rails console
 bin/rails assets:precompile # Compile assets for deployment
 bin/rubocop            # Check Ruby style and lint offenses
+bin/bundler-audit      # Check gems for known security advisories
 ```
 
 ## Documentation

@@ -276,6 +276,10 @@ These commands were taken from the terminal history, in the order they were run,
 | `rails db:migrate` | Apply the user name migration so first and last names can be stored in the database. |
 | `rubocop` | Check Ruby files for style and lint offenses using the project's RuboCop configuration. |
 | `rubocop -f github` | Run the same RuboCop checks with output formatted for GitHub Actions annotations. |
+| `bin/bundler-audit update` | Update the local vulnerability database used by `bundler-audit`; this does not update project gems. |
+| `bin/bundler-audit` | Check the dependencies in `Gemfile.lock` for known security advisories. |
+| `bundle update puma msgpack` | Update the named gems and compatible dependencies, recording resolved versions in `Gemfile.lock`. |
+| `bundle update` | Update all gems allowed by the `Gemfile` constraints and refresh `Gemfile.lock`; review and test the resulting changes. |
 
 ## Summary
 
