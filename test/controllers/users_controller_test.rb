@@ -38,4 +38,30 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select "input[name='user[first_name]']"
     assert_select "input[name='user[last_name]']"
   end
+
+  test "sign up form includes first and last name fields" do
+    get new_user_registration_path
+
+    assert_response :success
+    assert_select "input[name='user[first_name]']"
+    assert_select "input[name='user[last_name]']"
+  end
+
+  test "sign up saves first and last name" do
+    assert_difference("User.count", 1) do
+      post user_registration_path, params: {
+        user: {
+          first_name: "Ada",
+          last_name: "Lovelace",
+          email: "ada@example.com",
+          password: "password",
+          password_confirmation: "password"
+        }
+      }
+    end
+
+    user = User.find_by!(email: "ada@example.com")
+    assert_equal "Ada", user.first_name
+    assert_equal "Lovelace", user.last_name
+  end
 end
