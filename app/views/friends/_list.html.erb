@@ -1,0 +1,26 @@
+<div class="table-responsive">
+  <table class="table table-bordered table-hover align-middle">
+    <thead>
+      <tr>
+        <th scope="col">Email</th>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @friends.each do |friend| %>
+        <tr>
+          <td><%= friend.email %></td>
+          <td><%= friend.first_name %></td>
+          <td><%= friend.last_name %></td>
+          <td>
+            <span class="btn btn-sm btn-outline-secondary disabled" aria-disabled="true">
+              Stop following
+            </span>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

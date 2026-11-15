@@ -1,0 +1,7 @@
+<h1>Friends</h1>
+
+<% if @friends.present? %>
+  <%= render "friends/list" %>
+<% else %>
+  <p class="text-body-secondary">You aren't following anyone yet.</p>
+<% end %>

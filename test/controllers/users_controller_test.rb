@@ -13,6 +13,31 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select ".navbar-text", /Anonymous/
   end
 
+  test "my_friends lists the current user's friends" do
+    user = users(:one)
+    sign_in user
+
+    get my_friends_path
+
+    assert_response :success
+    assert_select "h1", "Friends"
+    assert_select "table tbody tr", 1
+    assert_select "table tbody tr", text: /#{users(:two).email}/
+    assert_select "a.nav-link.active", "My Friends"
+  end
+
+  test "my_friends shows an empty state when the user has no friends" do
+    user = users(:one)
+    user.friendships.destroy_all
+    sign_in user
+
+    get my_friends_path
+
+    assert_response :success
+    assert_select "table", count: 0
+    assert_select "p", "You aren't following anyone yet."
+  end
+
   test "account update accepts first and last name" do
     user = users(:one)
     sign_in user
