@@ -51,7 +51,7 @@ Make sure the PostgreSQL server is installed and running. Set the username, pass
 
 In development and test, environment variables are loaded from `.env` files by the `dotenv-rails` gem.
 
-1. Add the gem to the `development` and `test` group of the `Gemfile` (it is only installed locally so far), then install it:
+1. If the gem is not already in the `development` and `test` group of the `Gemfile`, add it and install it:
 
    ```sh
    bundle add dotenv-rails --group "development, test"
@@ -243,7 +243,7 @@ These commands were taken from the terminal history, in the order they were run,
 | `rails -v` / `ruby -v` | Check the installed Rails and Ruby versions. |
 | `bundle install` | Install the gems listed in the `Gemfile`. |
 | `gem update --system` | Update RubyGems before reinstalling dependencies. |
-| `gem install dotenv-rails` | Install the `dotenv-rails` gem locally. It is not in the `Gemfile` yet; see step 4 to add it. |
+| `gem install dotenv-rails` | Install the `dotenv-rails` gem locally; use Bundler to install the version declared in the `Gemfile`. |
 | `direnv allow` | Approve the project's `.envrc` so `direnv` loads the variables from `.env` into the terminal (needed for `bin/rails db:prepare` to see them). |
 | `bin/rails db:prepare` | Create the database (if needed), load the schema, and run pending migrations. |
 | `rails generate controller welcome index` | Generate the `Welcome` controller with an `index` action, its view, helper, and test, and add a `get "welcome/index"` route. The route was then replaced with `root "welcome#index"` so the welcome page is the home page. |

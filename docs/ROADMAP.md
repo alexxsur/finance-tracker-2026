@@ -17,7 +17,7 @@
 - [x] Generate the Rails application with PostgreSQL.
 - [x] Confirm the Rails configuration and default health-check route are present.
 - [x] Document local setup and testing in the README.
-- [ ] Add `dotenv-rails` to the `Gemfile` (development and test groups) and create the `.env` files for local environment variables, keeping them out of Git. See [POST_GENERATION_STEPS.md](POST_GENERATION_STEPS.md).
+- [x] Add `dotenv-rails` to the `Gemfile` (development and test groups) and ignore local `.env` files. See [POST_GENERATION_STEPS.md](POST_GENERATION_STEPS.md).
 
 Stock lookup, portfolio tracking and removal, and friend search, following, and removal are implemented. The remaining social features are still in development.
 

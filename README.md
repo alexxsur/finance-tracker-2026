@@ -48,6 +48,34 @@ From the project root:
 
 The generated health check is available at `/up`.
 
+## Example data
+
+In development or test, add a password accepted by Devise to the ignored `.env` file in the project root:
+
+```dotenv
+SEED_USER_PASSWORD=your_example_password
+```
+
+Rails loads this file automatically. Environment variables already exported in the shell take precedence. Then run:
+
+```sh
+bin/rails db:seed
+```
+
+Sign in using that password and one of these example accounts:
+
+| Email | Scenario |
+| --- | --- |
+| `investor@seed.example.com` | Three stocks and two followed users, with one mutual friendship. |
+| `beginner@seed.example.com` | Empty portfolio and no followed users. |
+| `near-limit@seed.example.com` | Nine stocks, with room for one more. |
+| `at-limit@seed.example.com` | Ten stocks, at the tracking limit. |
+| `anonymous@seed.example.com` | No name, stocks, or followed users. |
+
+Search for `Lee` to find two users, including one followed and one not followed when signed in as `near-limit@seed.example.com`. View their profiles to try adding stocks from another portfolio; `DIS` is also available as an untracked example. Example prices are illustrative, not live quotes. Stock search still requires the Twelve Data API key and a working API connection.
+
+Seeds can be run repeatedly without duplicating their records. They add missing example relationships but do not reset existing users, passwords, stocks, or relationships, so a previously modified example account may differ from the scenarios above. Use a fresh development database for the exact initial scenarios. Existing users keep their current passwords. Seeds refuse to run outside development and test.
+
 ## Tests
 
 Run the Rails test suite with:
