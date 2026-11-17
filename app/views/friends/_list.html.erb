@@ -15,6 +15,7 @@
           <td><%= friend.first_name %></td>
           <td><%= friend.last_name %></td>
           <td>
+            <%= link_to "View Profile", user_path(friend), class: "btn btn-sm btn-success" %>
             <% friendship = current_user.friendships.find_by!(friend_id: friend.id) %>
             <%= button_to "Stop following", friendship_path(friendship), method: :delete,
                   class: "btn btn-sm btn-warning",

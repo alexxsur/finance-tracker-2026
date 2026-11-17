@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get "search_friend", to: "users#search"
   get "search_stock", to: "stocks#search"
   devise_for :users
+  resources :users, only: :show
   # get "welcome/index"
   root "welcome#index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

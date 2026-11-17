@@ -22,6 +22,7 @@ class StocksControllerTest < ActionDispatch::IntegrationTest
     assert_select ".results-block", text: /Apple Inc/
     assert_select ".results-block", text: /\$123\.45/
     assert_select "form[action='#{user_stocks_path(ticker: "AAPL")}']"
+    assert_select "form[action='#{user_stocks_path(ticker: "AAPL")}'] button.btn-sm"
   end
 
   test "search hides add button when stock is already tracked" do

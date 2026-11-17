@@ -1,0 +1,20 @@
+<h1><%= @user.full_name %></h1>
+<p class="text-body-secondary"><%= @user.email %></p>
+
+<% if @user == current_user %>
+  <%= link_to "Edit profile", edit_user_registration_path, class: "btn btn-outline-primary mb-3" %>
+<% elsif current_user.not_friends_with?(@user.id) %>
+  <%= button_to "Follow friend", friendships_path(friend: @user.id), method: :post,
+        class: "btn btn-success mb-3", form: { data: { turbo_frame: "_top" } } %>
+<% else %>
+  <span class="badge text-bg-success mb-3">You are friends</span>
+<% end %>
+
+<h2 class="h4">Portfolio</h2>
+<% if @tracked_stocks.present? %>
+  <%= render "stocks/list" %>
+<% else %>
+  <p class="text-body-secondary">No stocks in this portfolio yet.</p>
+<% end %>
+
+<%= link_to "Back", my_friends_path, class: "btn btn-primary" %>

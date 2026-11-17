@@ -38,6 +38,56 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select "p", "You aren't following anyone yet."
   end
 
+  test "show displays another user's profile and portfolio" do
+    users(:one).friendships.destroy_all
+    sign_in users(:one)
+    get user_path(users(:two))
+
+    assert_response :success
+    assert_select "h1", users(:two).full_name
+    assert_select "p", users(:two).email
+    assert_select "table tbody tr", 1
+    assert_select "button", "Follow friend"
+    assert_select "a.btn-primary[href='#{my_friends_path}']", "Back"
+  end
+
+  test "show profile allows adding another user's stock to the current portfolio" do
+    sign_in users(:one)
+    get user_path(users(:two))
+
+    assert_response :success
+    assert_select "table tbody tr form[action=?]", user_stocks_path(ticker: stocks(:two).ticker) do
+      assert_select "button.btn-sm", "Add to portfolio"
+    end
+  end
+
+  test "show profile marks an already followed user" do
+    sign_in users(:one)
+    get user_path(users(:two))
+
+    assert_response :success
+    assert_select ".badge", "You are friends"
+  end
+
+  test "show profile displays an empty portfolio state" do
+    user = users(:two)
+    user.user_stocks.destroy_all
+    sign_in users(:one)
+
+    get user_path(user)
+
+    assert_response :success
+    assert_select "p", "No stocks in this portfolio yet."
+  end
+
+  test "friends list links to each friend's profile" do
+    sign_in users(:one)
+    get my_friends_path
+
+    assert_response :success
+    assert_select "a[href='#{user_path(users(:two))}']", "View Profile"
+  end
+
   test "my_friends includes a Turbo-powered friend search form" do
     sign_in users(:one)
     get my_friends_path
@@ -172,6 +222,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "input[name='user[first_name]']"
     assert_select "input[name='user[last_name]']"
+  end
+
+  test "sign in page is reachable alongside user profiles" do
+    get new_user_session_path
+
+    assert_response :success
+    assert_select "form[action='#{user_session_path}']"
   end
 
   test "sign up saves first and last name" do
