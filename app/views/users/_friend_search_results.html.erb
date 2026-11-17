@@ -3,13 +3,34 @@
     <div class="alert alert-warning" role="alert">
       <%= @search_error %>
     </div>
-  <% elsif @friend_query.present? %>
-    <div class="card results-block" role="status">
-      <div class="card-body">
-        <p class="card-text mb-0">
-          Search submitted: <strong><%= @friend_query %></strong>
-        </p>
-      </div>
+  <% elsif @search_results.present? %>
+    <div class="table-responsive results-block">
+      <table class="table table-bordered table-hover align-middle">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @search_results.each do |friend| %>
+            <tr>
+              <td><%= friend.full_name %></td>
+              <td><%= friend.email %></td>
+              <td>
+                <% if current_user.not_friends_with?(friend.id) %>
+                  <span class="btn btn-sm btn-outline-secondary disabled" aria-disabled="true">
+                    Follow friend
+                  </span>
+                <% else %>
+                  <span class="badge text-bg-success">You are friends</span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     </div>
   <% end %>
 <% end %>

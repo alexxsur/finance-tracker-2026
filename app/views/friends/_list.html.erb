@@ -15,9 +15,10 @@
           <td><%= friend.first_name %></td>
           <td><%= friend.last_name %></td>
           <td>
-            <span class="btn btn-sm btn-outline-secondary disabled" aria-disabled="true">
-              Stop following
-            </span>
+            <% friendship = current_user.friendships.find_by!(friend_id: friend.id) %>
+            <%= button_to "Stop following", friendship_path(friendship), method: :delete,
+                  class: "btn btn-sm btn-warning",
+                  data: { turbo_confirm: "Are you sure you want to stop following #{friend.full_name}?" } %>
           </td>
         </tr>
       <% end %>

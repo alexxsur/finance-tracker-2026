@@ -19,7 +19,7 @@
     </div>
   <% end %>
 </div>
-<%= turbo_frame_tag "friend_search_results" %>
+<%= render "users/friend_search_results" %>
 
 <% if @friends.present? %>
   <%= render "friends/list" %>

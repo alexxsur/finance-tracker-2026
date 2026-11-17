@@ -68,4 +68,17 @@ class UserTest < ActiveSupport::TestCase
   test "matches rejects unsupported search fields" do
     assert_raises(ArgumentError) { User.matches(:encrypted_password, "secret") }
   end
+
+  test "except_current_user removes the given user from search results" do
+    user = users(:one)
+
+    assert_equal [ users(:two) ], user.except_current_user([ user, users(:two) ])
+  end
+
+  test "not_friends_with? reflects the friendship association" do
+    user = users(:one)
+
+    assert_not user.not_friends_with?(users(:two).id)
+    assert user.not_friends_with?(999_999)
+  end
 end

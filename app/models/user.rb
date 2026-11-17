@@ -57,4 +57,12 @@ class User < ApplicationRecord
     escaped_query = sanitize_sql_like(query.downcase)
     where("LOWER(#{field}) LIKE ?", "%#{escaped_query}%").to_a
   end
+
+  def except_current_user(users)
+    users.reject { |user| user.id == id }
+  end
+
+  def not_friends_with?(friend_id)
+    !friends.where(id: friend_id).exists?
+  end
 end

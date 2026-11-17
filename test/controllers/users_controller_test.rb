@@ -50,22 +50,35 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select "turbo-frame#friend_search_results"
   end
 
-  test "search returns the submitted friend query in the Turbo Frame" do
-    sign_in users(:one)
+  test "search returns matching users and excludes the current user in the Turbo Frame" do
+    current_user = users(:one)
+    friend = users(:two)
+    friend.update!(first_name: "Ada", last_name: "Lovelace")
+    current_user.update!(first_name: "Ada", last_name: "Byron")
+    sign_in current_user
+
     get search_friend_path,
-        params: { friend: "Ada Lovelace" },
+        params: { friend: "Ada" },
         headers: { "Turbo-Frame" => "friend_search_results" }
 
     assert_response :success
     assert_select "turbo-frame#friend_search_results", text: /Ada Lovelace/
+    assert_select "turbo-frame#friend_search_results", text: /#{friend.email}/
+    assert_select "turbo-frame#friend_search_results", text: /#{current_user.email}/, count: 0
   end
 
-  test "search returns the submitted friend query as JSON without a Turbo Frame" do
+  test "search renders matching users without a Turbo Frame" do
+    result = User.create!(first_name: "Ada", last_name: "Lovelace",
+                          email: "ada@example.com", password: "password")
     sign_in users(:one)
-    get search_friend_path, params: { friend: "ada@example.com" }
+    get search_friend_path, params: { friend: result.email }
 
     assert_response :success
-    assert_equal '"ada@example.com"', response.body
+    assert_select "h1", "Friends"
+    assert_select "turbo-frame#friend_search_results table tbody tr", text: /#{result.email}/
+    assert_select "turbo-frame#friend_search_results", text: /Ada Lovelace/
+    assert_select "turbo-frame#friend_search_results", text: /Follow friend/
+    assert_select "table tbody tr", text: /#{users(:two).email}/
   end
 
   test "search displays a friendly error for a blank Turbo Frame query" do
@@ -76,6 +89,29 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select ".alert", "Please enter a friend name or email to search"
+  end
+
+  test "search displays a message when no users match" do
+    sign_in users(:one)
+    get search_friend_path,
+        params: { friend: "no-such-user" },
+        headers: { "Turbo-Frame" => "friend_search_results" }
+
+    assert_response :success
+    assert_select ".alert", "No users found matching your search"
+  end
+
+  test "search displays errors without a Turbo Frame and keeps the friends list" do
+    sign_in users(:one)
+
+    { " " => "Please enter a friend name or email to search",
+      "no-such-user" => "No users found matching your search" }.each do |query, message|
+      get search_friend_path, params: { friend: query }
+
+      assert_response :success
+      assert_select "turbo-frame#friend_search_results .alert", message
+      assert_select "table tbody tr", text: /#{users(:two).email}/
+    end
   end
 
   test "account update accepts first and last name" do
