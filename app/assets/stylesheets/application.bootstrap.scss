@@ -9,3 +9,16 @@
   display: inline-block;
   margin-bottom: 1rem;
 }
+
+.welcome-page {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.welcome-hero {
+  max-width: 760px;
+}
+
+.welcome-card {
+  background-color: var(--bs-body-bg);
+}

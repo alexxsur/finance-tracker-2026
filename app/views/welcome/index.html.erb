@@ -1,2 +1,47 @@
-<h1>Welcome to the Finance Tracker app</h1>
-<p>Create a welcome page</p>
+<% content_for :title, "Welcome | Finance Tracker 2026" %>
+
+<main class="welcome-page py-5">
+  <section class="welcome-hero text-center mx-auto">
+    <span class="badge rounded-pill text-bg-primary-subtle text-primary-emphasis mb-4">
+      Your portfolio, all in one place
+    </span>
+    <h1 class="display-4 fw-bold mb-3">Make your investments easier to follow.</h1>
+    <p class="lead text-body-secondary mb-4">
+      Track your stock portfolio, discover companies, and connect with friends—all from one simple dashboard.
+    </p>
+
+    <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+      <% if user_signed_in? %>
+        <%= link_to "View my portfolio", my_portfolio_path, class: "btn btn-primary btn-lg" %>
+        <%= link_to "Meet my friends", my_friends_path, class: "btn btn-outline-primary btn-lg" %>
+      <% else %>
+        <%= link_to "Get started", new_user_registration_path, class: "btn btn-primary btn-lg" %>
+        <%= link_to "Sign in", new_user_session_path, class: "btn btn-outline-primary btn-lg" %>
+      <% end %>
+    </div>
+  </section>
+
+  <section class="row g-4 mt-5" aria-label="What you can do">
+    <div class="col-md-4">
+      <article class="welcome-card h-100 p-4 rounded-4 border">
+        <i class="bi bi-briefcase fs-3 text-primary" aria-hidden="true"></i>
+        <h2 class="h5 mt-3">Track your portfolio</h2>
+        <p class="text-body-secondary mb-0">Keep the stocks you follow together and see your portfolio at a glance.</p>
+      </article>
+    </div>
+    <div class="col-md-4">
+      <article class="welcome-card h-100 p-4 rounded-4 border">
+        <i class="bi bi-search fs-3 text-primary" aria-hidden="true"></i>
+        <h2 class="h5 mt-3">Explore stocks</h2>
+        <p class="text-body-secondary mb-0">Search for companies and add stocks you want to keep an eye on.</p>
+      </article>
+    </div>
+    <div class="col-md-4">
+      <article class="welcome-card h-100 p-4 rounded-4 border">
+        <i class="bi bi-people fs-3 text-primary" aria-hidden="true"></i>
+        <h2 class="h5 mt-3">Connect with friends</h2>
+        <p class="text-body-secondary mb-0">Find friends and share your investing journey with your community.</p>
+      </article>
+    </div>
+  </section>
+</main>
