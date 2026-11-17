@@ -130,7 +130,9 @@ A fresh project has no migrations yet, so `db:migrate` will do nothing until you
 bin/rails db:prepare
 ```
 
-`db:prepare` is safe to run repeatedly. For each configured database, it creates the database if it does not exist and, if the database is empty (no `schema_migrations` table), loads the schema file when one exists. It then always runs any pending migrations, updates the schema file if the migrations changed it, and runs the seeds only if a database was initialized during that run. It never deletes data. It is convenient after cloning the repository or pulling code that includes new migrations. While developing your own migrations, keep using `bin/rails db:migrate`.
+`db:prepare` is safe to run repeatedly. For each configured database, it creates the database if it does not exist and, if the database has no `schema_migrations` table, loads the schema file when one exists. It then runs pending migrations, may update the schema dump, and runs seeds when an eligible database was initialized during that run. It is convenient after cloning the repository or pulling code that includes new migrations. While developing your own migrations, keep using `bin/rails db:migrate`.
+
+The project's example seeds require `SEED_USER_PASSWORD` and only run in development and test. Set the variable before `db:prepare` when it may initialize a database. See [Example data](../README.md#example-data) for configuration and seed behavior.
 
 ### When to use `db:seed`
 
@@ -138,13 +140,14 @@ bin/rails db:prepare
 
 - To load data the application needs in order to work, such as default categories or lookup values.
 - To fill a development database with sample data so you can try the interface without entering everything by hand.
-- After resetting the database, for example with `bin/rails db:reset` (drop, create, load schema, seed) or `bin/rails db:setup`.
+- To reload example data after a database reset. `bin/rails db:reset` and `bin/rails db:setup` already run seeds; `db:reset` deletes existing data.
 
 Notes:
 
-- `db:prepare` already runs the seeds, but only when it initializes a new database; running `db:prepare` on an existing database does not re-run them.
+- `db:prepare` runs seeds when it initializes an eligible database, including an existing database without a `schema_migrations` table; it does not re-run them for an already initialized database.
 - `db:seed` does not check whether the data already exists. Write `db/seeds.rb` so it can run more than once without creating duplicates (for example, with `find_or_create_by!`).
 - Do not put secrets or real user data in `db/seeds.rb`; it is committed to Git.
+- This project's seeds require `SEED_USER_PASSWORD`, refuse to run outside development and test, and add missing examples without resetting existing data or passwords. See [Example data](../README.md#example-data).
 
 ## 6. Run the application
 
@@ -283,6 +286,9 @@ These commands were taken from the terminal history, in the order they were run,
 | `rails g model Friendship user:references` | Generate the `Friendship` model, migration, test, and fixture with a user reference. The migration was subsequently extended with a friend reference to users. |
 | `rails db:migrate` | Apply the friendships migration and create its table. |
 | `rails test` | Run the Rails test suite, excluding system tests by default. |
+| `rails db:prepare` | Prepare the database; when initializing it, this may also run the seeds and require `SEED_USER_PASSWORD`. |
+| `rails db:seed` | Load example users, stocks, portfolios, and friendships after setting `SEED_USER_PASSWORD`. |
+| `bundle install --gemfile` | The option requires a Gemfile path, for example `bundle install --gemfile=./Gemfile`; the command as written omits that value. From the project root, `bundle install` uses the project's Gemfile by default. |
 
 ## Summary
 

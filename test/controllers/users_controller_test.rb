@@ -13,6 +13,18 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select ".navbar-text", /Anonymous/
   end
 
+  test "my_portfolio shows an empty state when the user has no stocks" do
+    user = users(:one)
+    user.user_stocks.destroy_all
+    sign_in user
+
+    get my_portfolio_path
+
+    assert_response :success
+    assert_select "p", "Your portfolio is empty. Search for a stock above to add your first one."
+    assert_select "table", count: 0
+  end
+
   test "my_friends lists the current user's friends" do
     user = users(:one)
     sign_in user

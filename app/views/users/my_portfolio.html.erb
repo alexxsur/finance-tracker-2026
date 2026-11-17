@@ -18,4 +18,6 @@
 <%= render "users/stock_search_results" %>
 <% if @tracked_stocks.present? %>
   <%= render "stocks/list" %>
+<% else %>
+  <p class="text-body-secondary">Your portfolio is empty. Search for a stock above to add your first one.</p>
 <% end %>

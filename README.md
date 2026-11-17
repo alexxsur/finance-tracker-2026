@@ -6,7 +6,7 @@
 
 The application has Devise-based user authentication, names on registration and profile editing, and Bootstrap styling. Users can search for stocks using Twelve Data and add up to ten unique stocks to their portfolios or remove them. Stock search results update with Turbo without a full-page reload.
 
-The friends page lists followed users and allows searching users by name or email. Users can follow people from search results and unfollow them from the friends list.
+The friends page lists followed users and allows searching users by name or email. Users can follow people, unfollow them, and view profiles and portfolios.
 
 ## Technology
 
@@ -36,7 +36,7 @@ From the project root:
    bin/rails db:prepare
    ```
 
-   If database preparation fails, check that PostgreSQL is running and that your local PostgreSQL role and connection settings are correct.
+   When initializing a new database, this command may also run the example seeds. Set `SEED_USER_PASSWORD` first, as described in [Example data](#example-data). If database preparation fails, also check that PostgreSQL is running and that your local PostgreSQL role and connection settings are correct.
 
 3. Start the Rails server:
 

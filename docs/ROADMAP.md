@@ -19,7 +19,7 @@
 - [x] Document local setup and testing in the README.
 - [x] Add `dotenv-rails` to the `Gemfile` (development and test groups) and ignore local `.env` files. See [POST_GENERATION_STEPS.md](POST_GENERATION_STEPS.md).
 
-Stock lookup, portfolio tracking and removal, and friend search, following, and removal are implemented. The remaining social features are still in development.
+Stock lookup, portfolio tracking and removal, friend search, following, removal, and user profiles are implemented.
 
 ## Milestones
 
@@ -59,12 +59,12 @@ Stock lookup, portfolio tracking and removal, and friend search, following, and 
 - [x] Add a self-referential friendships association (back end).
 - [x] Add a "my friends" view listing followed friends.
 - [x] Add a friend search form.
-- [ ] Submit the friend search dynamically with Turbo.
-- [ ] Add user search methods.
-- [ ] Add friend removal.
+- [x] Submit the friend search dynamically with Turbo.
+- [x] Add user search methods.
+- [x] Add friend removal.
 - [x] Create friendships from the browser.
-- [ ] Add a user/friend profile page.
-- [ ] Add a back button to the user/friend profile page.
+- [x] Add a user/friend profile page.
+- [x] Add a back button to the user/friend profile page.
 
 ### 6. Polish and documentation
 
