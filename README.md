@@ -10,7 +10,7 @@ The friends page lists followed users and allows searching users by name or emai
 
 ## Technology
 
-- Ruby 3.3.13 (see `.ruby-version`)
+- Ruby (see `.ruby-version`)
 - Rails (see `Gemfile` and `Gemfile.lock`)
 - PostgreSQL
 - Puma
@@ -18,7 +18,7 @@ The friends page lists followed users and allows searching users by name or emai
 
 ## Prerequisites
 
-Install Ruby 3.3.13, PostgreSQL, and Bundler. PostgreSQL must be running, and your local PostgreSQL role must be able to create databases. If your PostgreSQL setup requires a username, password, host, or port, configure it in `config/database.yml` or through the supported `DATABASE_URL` environment variable. Do not commit credentials.
+Install the Ruby version in `.ruby-version`, Bundler, PostgreSQL, Node.js, and Yarn. PostgreSQL must be running, and your local PostgreSQL role must be able to create databases. Configure connection settings through environment variables (`PGHOST`, `PGPORT`, `PGUSER`, `PGPASSWORD`, or `DATABASE_URL`) or `config/database.yml`. Do not commit credentials.
 
 ## Local setup
 
@@ -30,7 +30,24 @@ From the project root:
    bundle install
    ```
 
-2. Prepare the development database:
+2. Set up development environment variables in a local `.env` file. `dotenv-rails` loads this file when Rails starts. Set the PostgreSQL connection variables for your installation and `SEED_USER_PASSWORD` to a nonblank password accepted by Devise. The `.env` file is ignored by Git.
+
+   For stock lookup, configure `twelve_data.api_key` in Rails encrypted credentials:
+
+   ```sh
+   EDITOR="code --wait" bin/rails credentials:edit
+   ```
+
+   Add a `twelve_data` mapping containing `api_key`. Keep the API key and `config/master.key` private. Without the appropriate master key, Rails cannot decrypt the existing credentials file. Stock lookup also requires a working connection to Twelve Data.
+
+3. Install JavaScript dependencies and build the Bootstrap stylesheet:
+
+   ```sh
+   yarn install --frozen-lockfile
+   yarn build:css
+   ```
+
+4. Prepare the development database:
 
    ```sh
    bin/rails db:prepare
@@ -38,15 +55,15 @@ From the project root:
 
    When initializing a new database, this command may also run the example seeds. Set `SEED_USER_PASSWORD` first, as described in [Example data](#example-data). If database preparation fails, also check that PostgreSQL is running and that your local PostgreSQL role and connection settings are correct.
 
-3. Start the Rails server:
+5. Start the Rails server:
 
    ```sh
    bin/rails server
    ```
 
-4. Open [http://localhost:3000](http://localhost:3000).
+6. Open [http://localhost:3000](http://localhost:3000).
 
-The generated health check is available at `/up`.
+The generated health check is available at `/up`. To rebuild CSS automatically while developing, use `bin/dev` instead of `bin/rails server`; it starts the server and CSS watcher and installs Foreman if it is missing.
 
 ## Example data
 
@@ -83,6 +100,8 @@ Run the Rails test suite with:
 ```sh
 bin/rails test
 ```
+
+System tests run separately with `bin/rails test:system` once they have been added. The system-test job in CI is currently disabled.
 
 ## Useful commands
 

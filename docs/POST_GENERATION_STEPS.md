@@ -49,7 +49,7 @@ Make sure the PostgreSQL server is installed and running. Set the username, pass
 
 ## 4. Configure environment variables with `dotenv-rails`
 
-In development and test, environment variables are loaded from `.env` files by the `dotenv-rails` gem.
+In development and test, Rails loads environment variables from `.env` files through the `dotenv-rails` gem.
 
 1. If the gem is not already in the `development` and `test` group of the `Gemfile`, add it and install it:
 
@@ -57,24 +57,27 @@ In development and test, environment variables are loaded from `.env` files by t
    bundle add dotenv-rails --group "development, test"
    ```
 
-2. Create a `.env` file in the project root with the variables for your machine, for example the database connection and any external API keys:
+2. Create a `.env` file in the project root with the variables for your machine. For this project, configure PostgreSQL and a password for example seeds:
 
-   ```sh
-   DATABASE_URL=postgresql://USERNAME:PASSWORD@localhost:5432/finance_tracker_2026_development
-   EXTERNAL_API_KEY=your_key_here
+   ```dotenv
+   PGHOST=127.0.0.1
+   PGPORT=5432
+   PGUSER=your_postgresql_user
+   PGPASSWORD=your_postgresql_password
+   SEED_USER_PASSWORD=your_example_password
    ```
 
-   Optionally create environment-specific files such as `.env.development`, `.env.test`, and `.env.local` for values that differ per environment or developer.
+   Adjust these values to your environment. Alternatively, configure `DATABASE_URL`; a URL applies to the database named in it, so do not point test and development at the same database. Optionally use environment-specific files such as `.env.development`, `.env.test`, and `.env.local`. The Twelve Data API key is configured in Rails credentials, not in this `.env` example; see the [README](../README.md#local-setup).
 
 3. Read the values in the application with `ENV["NAME"]` or `ENV.fetch("NAME")`.
 
-4. Confirm the files are ignored by Git. The generated `.gitignore` already ignores `/.env*`, so real values are never committed. To share the list of required variables, create a placeholder-only template (for example `.env.example`) and explicitly allow it in `.gitignore` with `!/.env.example`.
+4. Confirm the files are ignored by Git. The project's `.gitignore` ignores `/.env*`, including `.env.example` and `.envrc`. To share a placeholder-only template, explicitly allow it in `.gitignore` with `!/.env.example`; never include real secrets.
 
 5. Restart the Rails server after changing a `.env` file.
 
 ### Optional: load the variables in the terminal with `direnv`
 
-`dotenv-rails` only loads the `.env` file when Rails boots. `direnv` is a shell tool (not a gem) that automatically loads and unloads environment variables when you enter or leave the project directory, so they are also available to commands that do not boot Rails, such as `psql`, `pg_isready`, or `createdb`. It was needed in this project so that `bin/rails db:prepare` picked up the variables from `.env` in the terminal session.
+`direnv` is a shell tool (not a gem) that loads and unloads environment variables when you enter or leave the project directory. This makes them available to commands outside Rails, such as `psql` and `createdb`. It was used in this project before `dotenv-rails` was added. It is optional for Rails commands now that the gem is configured.
 
 1. Install `direnv` and add its hook to your shell configuration (`~/.bashrc` or `~/.zshrc`), then restart the terminal:
 
@@ -91,7 +94,7 @@ In development and test, environment variables are loaded from `.env` files by t
    set +a
    ```
 
-   The `.envrc` file is already covered by the `/.env*` rule in `.gitignore`, so it is not committed.
+   This executes `.env` as shell code: use only trusted, shell-compatible content. The `.envrc` file is covered by the `/.env*` rule in `.gitignore`, so it is not committed.
 
 3. Approve the file. `direnv` refuses to load a new or modified `.envrc` until you allow it, as a security measure:
 
@@ -101,16 +104,11 @@ In development and test, environment variables are loaded from `.env` files by t
 
    Run `direnv allow` again every time `.envrc` changes. Changes to `.env` alone are not detected by this `.envrc`; run `direnv reload`, or add the line `watch_file .env` to `.envrc` (and run `direnv allow` once) so `direnv` reloads automatically.
 
-4. Verify the variables are loaded:
-
-   ```sh
-   env | grep PG
-   ```
+4. Verify the configuration by running a relevant command, such as `pg_isready`. Avoid printing environment variables: they may contain passwords.
 
 Notes:
 
-- `direnv` loads variables into the shell, and `dotenv-rails` does not overwrite variables that already exist, so using both is safe.
-- Variables already exported in the terminal for another project take precedence over the ones in `.env`. If values do not match, check `env | grep PG`.
+- The shown `source .env` assignments can overwrite variables already in the shell. Once exported, those values take precedence over `dotenv-rails` defaults, which do not normally overwrite existing environment variables.
 - Each collaborator must install `direnv` and configure their own shell; it is not installed by `bundle install`.
 
 In production, set the variables in the hosting environment or use Rails credentials instead of a `.env` file.
@@ -123,6 +121,7 @@ bin/rails db:migrate
 ```
 
 A fresh project has no migrations yet, so `db:migrate` will do nothing until you create models.
+This project now has migrations; the commands above apply any pending ones.
 
 **Option:** use a single command instead of the two above:
 
@@ -133,6 +132,8 @@ bin/rails db:prepare
 `db:prepare` is safe to run repeatedly. For each configured database, it creates the database if it does not exist and, if the database has no `schema_migrations` table, loads the schema file when one exists. It then runs pending migrations, may update the schema dump, and runs seeds when an eligible database was initialized during that run. It is convenient after cloning the repository or pulling code that includes new migrations. While developing your own migrations, keep using `bin/rails db:migrate`.
 
 The project's example seeds require `SEED_USER_PASSWORD` and only run in development and test. Set the variable before `db:prepare` when it may initialize a database. See [Example data](../README.md#example-data) for configuration and seed behavior.
+
+Because seeds refuse to run outside development and test, production initialization that invokes them will fail; production database setup needs a separate deployment plan.
 
 ### When to use `db:seed`
 
@@ -156,6 +157,7 @@ bin/rails server
 ```
 
 Open `http://localhost:3000` and confirm Rails boots correctly. The generated health check is available at `/up`.
+For this project, install the JavaScript dependencies and build CSS first; see [Local setup](../README.md#local-setup). `bin/dev` also runs the CSS watcher.
 
 ## 7. Define the scope and the data model
 
@@ -182,7 +184,7 @@ bin/rails test
 
 ### System tests and the CI pipeline
 
-System tests (`test/system`) are end-to-end tests that simulate a real user working with the application in a real browser: they open pages, click, fill in forms, and check what appears on screen.
+System tests (`test/system`) simulate user journeys through the application: they open pages, click, fill in forms, and check what appears on screen. Depending on the configured driver, they can use a real browser.
 
 - They use Capybara (the API for describing user actions) and Selenium (which drives the browser, usually Chrome). Both gems are already in the `Gemfile`.
 - They inherit from `ApplicationSystemTestCase`, which defines the browser and its settings.
@@ -207,13 +209,13 @@ end
 |-----------|----------------|-------|
 | Model | Validations and logic of a model | Very fast |
 | Controller / integration | HTTP requests and responses, without a browser | Fast |
-| System | The complete flow in a browser, including JavaScript, Turbo, and CSS | Slow |
+| System | A user flow in a browser, potentially including JavaScript and Turbo | Slow |
 
 Use system tests for the critical user journeys (for example, signing up, creating a transaction, or searching for friends), especially when they depend on JavaScript or Turbo. Because they are slower and more fragile, keep them few and rely mostly on model and integration tests.
 
 #### Why they fail on a fresh project
 
-A fresh Rails project has no `test/system` directory, so `bin/rails test:system` fails with `cannot load such file -- .../test/system` (`LoadError`) until the first system test exists. For the same reason, the `system-test` job in `.github/workflows/ci.yml` is commented out. Until then, use `bin/rails db:test:prepare` and `bin/rails test`.
+This project currently has no `test/system` directory, so `bin/rails test:system` fails with `cannot load such file -- .../test/system` (`LoadError`). For the same reason, the `system-test` job in `.github/workflows/ci.yml` is commented out. Until then, use `bin/rails db:test:prepare` and `bin/rails test`.
 
 To enable system tests later:
 
@@ -247,7 +249,7 @@ These commands were taken from the terminal history, in the order they were run,
 | `bundle install` | Install the gems listed in the `Gemfile`. |
 | `gem update --system` | Update RubyGems before reinstalling dependencies. |
 | `gem install dotenv-rails` | Install the `dotenv-rails` gem locally; use Bundler to install the version declared in the `Gemfile`. |
-| `direnv allow` | Approve the project's `.envrc` so `direnv` loads the variables from `.env` into the terminal (needed for `bin/rails db:prepare` to see them). |
+| `direnv allow` | Approve the local `.envrc` so `direnv` can load `.env` into the terminal. Rails now also loads `.env` through `dotenv-rails`. |
 | `bin/rails db:prepare` | Create the database (if needed), load the schema, and run pending migrations. |
 | `rails generate controller welcome index` | Generate the `Welcome` controller with an `index` action, its view, helper, and test, and add a `get "welcome/index"` route. The route was then replaced with `root "welcome#index"` so the welcome page is the home page. |
 | `bundle add devise` | Add the Devise authentication gem to the `Gemfile` and install it. |
@@ -272,7 +274,7 @@ These commands were taken from the terminal history, in the order they were run,
 | `rbenv install --list-all \| grep -Fx "$(cat .ruby-version)"` | Check whether ruby-build lists the project's exact Ruby version. |
 | `ruby -v` | Check the Ruby version selected in the project directory. |
 | `bundle install` | Install the project's Ruby dependencies for the selected Ruby installation. |
-| `rails g resource UserStock user:references stock:references` | Generate the `UserStock` model, migration, controller, helper, tests, fixture, and resource routes. The generated migration must still be applied to create the table. |
+| `rails g resource UserStock user:references stock:references` | Generate the `UserStock` model, migration, controller, helper, tests, fixture, and resource routes; the migration was subsequently applied. |
 | `rails routes --expanded \| grep user_stocks` | Filter expanded route output for lines containing `user_stocks`. |
 | `rails db:migrate` | Apply the `user_stocks` migration so users' tracked stocks can be stored in PostgreSQL. |
 | `rails g migration add_first_last_name_to_users` | Generate a migration file for adding first and last name columns to users; edit the generated migration to define the columns before applying it. |

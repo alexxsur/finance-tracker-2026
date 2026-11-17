@@ -5,8 +5,8 @@
 ## How to read this roadmap
 
 - The project is a stock tracker with a social component: users sign up, look up and track stocks in a personal portfolio, and follow friends. Adapt names and features to the finance domain as needed; the order and granularity of the tasks are what matter here.
-- Tasks are ordered so that each one builds on the previous ones.
-- This project uses the latest stable Ruby and Rails (see `.ruby-version` and the `Gemfile`) and the current stable Bootstrap. Avoid outdated techniques and use the current Rails defaults instead:
+- Tasks are grouped by milestone; checkboxes track completed work rather than a strict dependency order.
+- Use the project versions specified in `.ruby-version`, `Gemfile.lock`, and `yarn.lock`, and update dependencies deliberately. Prefer the configured Rails tooling:
   - Turbo (Turbo Frames and Turbo Streams) and Stimulus instead of hand-written AJAX or JavaScript response templates.
   - The Rails asset pipeline and import maps (or the project's configured JavaScript tooling) for assets.
   - Bootstrap's current utility and component classes instead of legacy ones.
@@ -31,8 +31,8 @@ Stock lookup, portfolio tracking and removal, friend search, following, removal,
 ### 2. Styling and navigation
 
 - [x] Add Bootstrap for styling with `cssbundling-rails` and the Bootstrap Sass setup.
-- [ ] Style the forms with Bootstrap.
-- [ ] Add a navigation partial and style flash messages.
+- [x] Style the forms with Bootstrap.
+- [x] Add a navigation partial and style flash messages.
 
 ### 3. External data and portfolio
 
