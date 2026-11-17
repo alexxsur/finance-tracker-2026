@@ -89,7 +89,7 @@ Sign in using that password and one of these example accounts:
 | `at-limit@seed.example.com` | Ten stocks, at the tracking limit. |
 | `anonymous@seed.example.com` | No name, stocks, or followed users. |
 
-Search for `Lee` to find two users, including one followed and one not followed when signed in as `near-limit@seed.example.com`. View their profiles to try adding stocks from another portfolio; `DIS` is also available as an untracked example. Example prices are illustrative, not live quotes. Stock search still requires the Twelve Data API key and a working API connection.
+When signed in as `near-limit@seed.example.com`, search for `example.com` to find users including the followed investor and users not followed. View their profiles to try adding stocks from another portfolio; `DIS` is also available as an untracked example. Example prices are illustrative, not live quotes. Stock search still requires the Twelve Data API key and a working API connection.
 
 Seeds can be run repeatedly without duplicating their records. They add missing example relationships but do not reset existing users, passwords, stocks, or relationships, so a previously modified example account may differ from the scenarios above. Use a fresh development database for the exact initial scenarios. Existing users keep their current passwords. Seeds refuse to run outside development and test.
 
@@ -117,4 +117,5 @@ bin/bundler-audit      # Check gems for known security advisories
 ## Documentation
 
 - [docs/POST_GENERATION_STEPS.md](docs/POST_GENERATION_STEPS.md): the usual steps to follow after generating a Rails project with `rails new ... --database=postgresql`.
+- [docs/COMMAND_HISTORY.md](docs/COMMAND_HISTORY.md): commands used during this project's development and their purposes.
 - [docs/ROADMAP.md](docs/ROADMAP.md): the project-specific development plan and progress checklist. Update it as milestones are completed so it reflects the actual state of the project.

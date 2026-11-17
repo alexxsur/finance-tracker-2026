@@ -69,6 +69,7 @@ Stock lookup, portfolio tracking and removal, friend search, following, removal,
 ### 6. Polish and documentation
 
 - [ ] Review button sizes and other UI details using Bootstrap's current classes.
+- [ ] Review Sass deprecation warnings from the Bootstrap build and update the configuration or dependencies when a compatible solution is available.
 - [ ] Update the README with the final state of the project.
 
 ## Extra steps for this project
@@ -77,6 +78,7 @@ These are recommended before release:
 
 - [ ] Add tests for models, requests, and the main user journeys at each milestone.
 - [ ] Run the configured code-quality and security checks (`bin/rubocop`, `bin/brakeman`, `bin/bundler-audit`).
+- [ ] Define and validate a production database initialization process that does not run the development and test example seeds.
 - [ ] Document production configuration, database setup, and deployment.
 
 ## Progress notes
