@@ -20,9 +20,9 @@
               <td><%= friend.email %></td>
               <td>
                 <% if current_user.not_friends_with?(friend.id) %>
-                  <span class="btn btn-sm btn-outline-secondary disabled" aria-disabled="true">
-                    Follow friend
-                  </span>
+                  <%= button_to "Follow friend", friendships_path, params: { friend: friend.id },
+                        method: :post, class: "btn btn-sm btn-success",
+                        form: { data: { turbo_frame: "_top" } } %>
                 <% else %>
                   <span class="badge text-bg-success">You are friends</span>
                 <% end %>

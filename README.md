@@ -6,7 +6,7 @@
 
 The application has Devise-based user authentication, names on registration and profile editing, and Bootstrap styling. Users can search for stocks using Twelve Data and add up to ten unique stocks to their portfolios or remove them. Stock search results update with Turbo without a full-page reload.
 
-The friends page lists followed users and allows searching users by name or email. Unfollowing is available from the friends list; following users from search results is still in development.
+The friends page lists followed users and allows searching users by name or email. Users can follow people from search results and unfollow them from the friends list.
 
 ## Technology
 

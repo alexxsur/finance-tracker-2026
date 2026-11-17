@@ -65,6 +65,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select "turbo-frame#friend_search_results", text: /Ada Lovelace/
     assert_select "turbo-frame#friend_search_results", text: /#{friend.email}/
     assert_select "turbo-frame#friend_search_results", text: /#{current_user.email}/, count: 0
+    assert_select "turbo-frame#friend_search_results", text: /You are friends/
+    assert_select "form[action='#{friendships_path}']", count: 0
   end
 
   test "search renders matching users without a Turbo Frame" do
@@ -99,6 +101,30 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select ".alert", "No users found matching your search"
+  end
+
+  test "friend search offers a follow action for users not followed yet" do
+    friend = users(:two)
+    friend.update!(first_name: "Ada", last_name: "Lovelace")
+    users(:one).friendships.destroy_all
+    sign_in users(:one)
+
+    get search_friend_path,
+        params: { friend: "Ada" },
+        headers: { "Turbo-Frame" => "friend_search_results" }
+
+    assert_response :success
+    assert_select "form[action='#{friendships_path}'][method=post][data-turbo-frame='_top']" do
+      assert_select "input[type=hidden][name=friend][value='#{friend.id}']"
+      assert_select "button[type=submit]", "Follow friend"
+    end
+
+    assert_difference("Friendship.count", 1) do
+      post friendships_path, params: { friend: friend.id }
+    end
+    assert_redirected_to my_friends_path
+    follow_redirect!
+    assert_select "table tbody tr", text: /#{friend.email}/
   end
 
   test "search displays errors without a Turbo Frame and keeps the friends list" do
